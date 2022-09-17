@@ -1,0 +1,28 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch ExpertSystem",
+            "request": "launch",
+            "mainClass": "src.ExpertSystem",
+            "projectName": "Expert-System-Robot_7cf1f186"
+        },
+        {
+            "type": "java",
+            "name": "Launch Grid",
+            "request": "launch",
+            "mainClass": "src.Grid",
+            "projectName": "Expert-System-Robot_7cf1f186"
+        },
+        {
+            "type": "java",
+            "name": "Launch Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        }
+    ]
+}

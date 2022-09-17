@@ -6,6 +6,7 @@ public class Constants {
     public static char GOAL = 'G';
     public static char UNKNOWN = '?';
     public static char OBSTACLE = '#';
+    public static char INVALID = 'I';
 
     private Constants(){}; // hide constructor
 }
