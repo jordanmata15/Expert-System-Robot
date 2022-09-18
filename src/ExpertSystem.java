@@ -1,11 +1,13 @@
 package src;
 
-import src.Grid.GridIndex;
+import java.lang.Thread;
+
 import src.rules.Rule;
 
 public class ExpertSystem {
     
     private Database database;
+    
 
     public ExpertSystem(int m, int n, int numObstacles) {
         Environment env = new Environment(m, n, numObstacles);
@@ -13,39 +15,58 @@ public class ExpertSystem {
     }
 
     public void search() {
-        //Agent agent = database.getAgent();
-        //Environment env = database.unexploredEnvironment;
-        
+
         while (continueSearching()) {
             Rule ruleToApply = database.getNextRule();
             if (database.canFireRule(ruleToApply)) {
                 database.fireRule(ruleToApply);
             }
+            display();
         }
 
         printSummary();
+        
+        // Enable this line to see a list of all 
+        // System.out.println(database.allRulesFiredSoFarString());
     }
+
+
+    private void display() {
+        System.out.println("Move #" + database.getMoveCount() + "\n" +
+                            database.currentBoard());
+        try {
+            Thread.sleep(Constants.MS_BEFORE_DISPLAYING_NEXT_MOVE);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     private void printSummary() {
         StringBuilder summaryStrBuilder = new StringBuilder();
 
-        if (database.goalIsFound()) {
-            summaryStrBuilder.append("\nGoal found!\n");
+        summaryStrBuilder.append("\nSUMMARY:");
+        if (database.goalIsReached()) {
+            summaryStrBuilder.append("\nGoal status:\t\tFound!\n");
         } else {
-            summaryStrBuilder.append("\nGoal not found!\n");
+            summaryStrBuilder.append("\nGoal status:\t\tNot found!\n");
+            summaryStrBuilder.append("Did agent gave up?\t" + haveGivenUp() + "\n");
+            summaryStrBuilder.append("Rules stopped firing?\t" + database.rulesNoLongerFiring() + "\n");
         }
+        summaryStrBuilder.append("# moves used:\t\t" + 
+                                    database.getMoveCount() + "/" + 
+                                    Constants.MAX_NUM_MOVES + "\n\n");
         summaryStrBuilder.append(database.toString());
         System.out.println(summaryStrBuilder.toString());
     }
 
     private boolean continueSearching() {
         return !haveGivenUp()
-            && !database.goalIsFound()  
-            && !database.rulesNoLongerFiring();
+            && !database.goalIsReached();
     }
 
     private boolean haveGivenUp() {
-        if (database.getMoveCount() > 2000) {
+        if (database.getMoveCount() >= Constants.MAX_NUM_MOVES || database.rulesNoLongerFiring()) {
             return true;
         } else {
             return false;

@@ -12,30 +12,17 @@ public enum Direction {
     W (270, new GridIndex(-1, 0)),
     NW(315, new GridIndex(-1, -1));
 
-    private final Integer degrees;
+    public final Integer degrees;
     // offset to add if we wish to move forward in this direction
     private final GridIndex forwardOffset;
+
+    private static int DEGREES_PER_TURN = 45;
+    public static int DEGREES_LEFT_TURN = -DEGREES_PER_TURN;
+    public static int DEGREES_RIGHT_TURN = DEGREES_PER_TURN;
 
     Direction(Integer degrees, GridIndex fo) {
         this.degrees = degrees;
         this.forwardOffset = fo;
-    }
-
-    public Direction directionAtDegrees(int degrees) {
-        if (degrees < 0) {
-            degrees %= 360;
-            degrees += 360;
-        }
-        if (degrees > 359) {
-            degrees %= 360;
-            degrees -= 360;
-        }
-        for (Direction d: Direction.values()) {
-            if (d.degrees == degrees) {
-                return d;
-            }
-        }
-        return Direction.N; // North is the default direction
     }
 
     public GridIndex forwardOffset() {
@@ -56,5 +43,38 @@ public enum Direction {
 
     public Direction diagRight() {
         return directionAtDegrees(this.degrees + 45);
+    }
+
+    public static Direction directionAtDegrees(int degrees) {
+        if (degrees < 0) {
+            degrees %= 360;
+            degrees += 360;
+        }
+        if (degrees > 359) {
+            degrees %= 360;
+            degrees -= 360;
+        }
+        for (Direction d: Direction.values()) {
+            if (d.degrees == degrees) {
+                return d;
+            }
+        }
+        return Direction.N; // North is the default direction
+    }
+
+    public static Direction directionOfOffset(GridIndex offset) {
+        // normalize the offset to -1, 0, or 1
+        if (offset.x != 0){
+            offset.x /= Math.abs(offset.x);
+        }
+        if (offset.y != 0){
+            offset.y /= Math.abs(offset.y);
+        }
+        for (Direction d: Direction.values()) {
+            if (d.forwardOffset == offset) {
+                return d;
+            }
+        }
+        return Direction.N; // North is the default direction
     }
 }

@@ -3,8 +3,8 @@ package src;
 import src.Grid.GridIndex;
 
 public class Agent {
-    Direction currDirection;
-    GridIndex currIndex;
+    private Direction currDirection;
+    private GridIndex currIndex;
 
     public Agent(GridIndex idx) {
         currDirection = Direction.N;
@@ -16,7 +16,6 @@ public class Agent {
     }
 
     public GridIndex getCurrIndex() {
-        //return currIndex;
         return new GridIndex(currIndex.x, currIndex.y);
     }
 

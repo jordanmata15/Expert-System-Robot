@@ -8,11 +8,13 @@ import src.Grid.GridIndex;
 public class IsBlockedAheadRule extends Rule{
 
     public IsBlockedAheadRule() {
-        antecedentString = "CANNOT MOVE FORWARD";
-        actionString = "TURN RIGHT";
+        antecedentString = "<CANNOT MOVE DIAGONALLY LEFT> and " + 
+                            "<CANNOT MOVE DIRECTLY FORWARD> and " + 
+                            "<CANNOT MOVE DIAGONALLY RIGHT>";
+        actionString = "<TURN LEFT>";
     }
     
-    public boolean isApplicable(Environment env, Agent agent) {
+    public boolean condition(Environment env, Agent agent) {
         Direction currDirection = agent.getCurrDirection();
         GridIndex currIndex = agent.getCurrIndex();
         
@@ -26,7 +28,7 @@ public class IsBlockedAheadRule extends Rule{
                 && !env.cellIsEmpty(diagRightIndex);
     }
 
-    public void invoke(Environment env, Agent agent) {
-        agent.turnRight();
+    public void action(Environment env, Agent agent) {
+        agent.turnLeft();
     }
 }

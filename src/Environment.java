@@ -1,17 +1,13 @@
 package src;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 import src.Grid.GridIndex;
 
 public class Environment {
 
-    Grid<Character> environmentGrid;
-
-    private GridIndex agentIndex;
+    private Grid<Character> environmentGrid;
+    private GridIndex agentStartIndex;
     private GridIndex goalIndex;
 
     public Environment(int numCols, int numRows) {
@@ -25,8 +21,8 @@ public class Environment {
     }
 
     public Environment(Environment other) {
-        if (Objects.nonNull(other.agentIndex)) {
-            agentIndex = new GridIndex(other.agentIndex.x, other.agentIndex.y);
+        if (Objects.nonNull(other.agentStartIndex)) {
+            agentStartIndex = new GridIndex(other.agentStartIndex.x, other.agentStartIndex.y);
         }
         goalIndex = new GridIndex(other.goalIndex.x, other.goalIndex.y);
         environmentGrid = new Grid<>(other.environmentGrid.getNumCols(), 
@@ -40,11 +36,10 @@ public class Environment {
     }
 
     public Environment withUnexploredGrid() {
+        goalIndex = null;
         for (int x=0; x<environmentGrid.getNumCols(); ++x) {
             for (int y=0; y<environmentGrid.getNumRows(); ++y) {
-                Character currChar = environmentGrid.getXY(x, y);
-                if (currChar != Constants.AGENT 
-                        && currChar != Constants.GOAL) {
+                if (environmentGrid.getXY(x, y) != Constants.AGENT) {
                     environmentGrid.setXY(x, y, Constants.UNKNOWN);
                 }
             }
@@ -53,13 +48,29 @@ public class Environment {
     }
 
     public Environment withAgentStartLocation() {
-        agentIndex = getRandomEmptyCell();
-        environmentGrid.setXY(agentIndex.x, agentIndex.y, Constants.AGENT);
+        agentStartIndex = getRandomEmptyCell();
+        environmentGrid.setXY(agentStartIndex.x, agentStartIndex.y, Constants.AGENT);
         return this;
     }
 
-    public GridIndex getAgentIndex() {
-        return agentIndex;
+    public void setAgentStartIndex(GridIndex startIdx) throws IllegalAccessError {
+        if (Objects.isNull(agentStartIndex)) {
+            agentStartIndex = new GridIndex(startIdx.x, startIdx.y);
+        } else {
+            throw new IllegalAccessError("Cannot update agent start index once set!");
+       }
+    }
+
+    public GridIndex getAgentStartIndex() {
+        return agentStartIndex;
+    }
+
+    public GridIndex getGoalIndex() {
+        return goalIndex;
+    }
+
+    public GridIndex setGoalIndex(GridIndex goalIdx) {
+        return goalIndex = goalIdx;
     }
 
     public boolean isValidIndex(GridIndex indexPair) {
@@ -113,6 +124,7 @@ public class Environment {
 
     @Override
     public String toString() {
+        environmentGrid.setXY(agentStartIndex.x, agentStartIndex.y, Constants.AGENT);
         return environmentGrid.toString();
     }
     
