@@ -12,30 +12,66 @@ public class Grid<T> {
     private final List<T> grid;
     private final Integer cols;
     private final Integer rows;
-    private final char spacer = ' ';
+    private final char print_spacer = ' ';
 
+    /**
+     * Simple constructor that defaults each record to null.
+     * 
+     * @param numCols Number of columns
+     * @param numRows Number of rows
+     */
     public Grid(int numCols, int numRows) {
         this(numCols, numRows, null);
     }
 
+    /**
+     * Simple constructor that defaults each record to null.
+     * 
+     * @param numCols Number of columns
+     * @param numRows Number of rows
+     * @param defaultValue The value to set each cell to
+     */
     public Grid(int numCols, int numRows, T defaultValue) {
         cols = numCols;
         rows = numRows;
         grid = new ArrayList<>(Collections.nCopies(numCols*numRows, defaultValue));
     }
 
+    /**
+     * Getter for the number of rows
+     * 
+     * @return Number of rows
+     */
     public int getNumRows() {
         return rows;
     }
 
+    /**
+     * Getter for the number of columns
+     * 
+     * @return Number of columns
+     */
     public int getNumCols() {
         return cols;
     }
 
+    /**
+     * Sets the value at an index
+     * 
+     * @param x The column to set
+     * @param y The row to set
+     * @param item The value to put at this index
+     */
     public void setXY(int x, int y, T item) {
         grid.set(y*cols+x, item);
     }
 
+    /**
+     * Sets the value at an index
+     * @param x The column to get
+     * @param y The row to get
+     * @return
+     */
     public T getXY(int x, int y) {
         return grid.get(y*cols+x);
     }
@@ -46,26 +82,40 @@ public class Grid<T> {
         for (int y=0; y<rows; ++y) {
             for (int x=0; x<cols; ++x) {
                 toStringBuilder.append(getXY(x,y));
-                toStringBuilder.append(spacer);
+                toStringBuilder.append(print_spacer);
             }
             toStringBuilder.append('\n');
         }
         return toStringBuilder.toString();
     }
 
+    /**
+     * Class to represent an ordered pair for specifying coordinate indices
+     */
     public static class GridIndex {
-        public int x; 
+        public int x;
         public int y;
         
+        /**
+         * Simple constructor
+         * 
+         * @param indexX The column index
+         * @param indexY The row index
+         */
         public GridIndex(int indexX, int indexY) {
             x = indexX;
             y = indexY;
         }
 
+        /**
+         * Method to be able to add 2 GridIndex objects. Similar to overloading the
+         * addition operator.
+         * 
+         * @param other The object to add to this GridIndex
+         * @return The sum of grid indices
+         */
         public GridIndex add(GridIndex other) {
-            this.x += other.x;
-            this.y += other.y;
-            return this;
+            return new GridIndex(x+other.x, y+other.y);
         }
 
         @Override

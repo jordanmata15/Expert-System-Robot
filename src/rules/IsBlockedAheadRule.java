@@ -7,6 +7,9 @@ import src.Grid.GridIndex;
 
 public class IsBlockedAheadRule extends Rule{
 
+    /**
+     * Simple constructor
+     */
     public IsBlockedAheadRule() {
         antecedentString = "<CANNOT MOVE DIAGONALLY LEFT> and " + 
                             "<CANNOT MOVE DIRECTLY FORWARD> and " + 
@@ -14,6 +17,9 @@ public class IsBlockedAheadRule extends Rule{
         actionString = "<TURN LEFT>";
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public boolean condition(Environment env, Agent agent) {
         Direction currDirection = agent.getCurrDirection();
         GridIndex currIndex = agent.getCurrIndex();
@@ -28,6 +34,9 @@ public class IsBlockedAheadRule extends Rule{
                 && !env.cellIsEmpty(diagRightIndex);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void action(Environment env, Agent agent) {
         agent.turnLeft();
     }

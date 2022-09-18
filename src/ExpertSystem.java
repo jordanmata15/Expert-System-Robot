@@ -8,15 +8,24 @@ public class ExpertSystem {
     
     private Database database;
     
-
+    /**
+     * Simple constructor
+     * 
+     * @param m The number of columns in our environment grid
+     * @param n The number of rows in our environment grid
+     * @param numObstacles
+     */
     public ExpertSystem(int m, int n, int numObstacles) {
         Environment env = new Environment(m, n, numObstacles);
         database = new Database(env);
     }
 
+    /**
+     * Runs the search on the environment and prints stats at the end.
+     */
     public void search() {
 
-        while (continueSearching()) {
+        while (!haveGivenUp() && !database.goalIsReached()) {
             Rule ruleToApply = database.getNextRule();
             if (database.canFireRule(ruleToApply)) {
                 database.fireRule(ruleToApply);
@@ -26,14 +35,17 @@ public class ExpertSystem {
 
         printSummary();
         
-        // Enable this line to see a list of all 
+        // Enable this line to see a list of all rules fired 
         // System.out.println(database.allRulesFiredSoFarString());
     }
 
-
+    /**
+     * Displays the current state of the grid we are searching.
+     * Sleeps after displaying to allow the move to be seen.
+     */
     private void display() {
         System.out.println("Move #" + database.getMoveCount() + "\n" +
-                            database.currentBoard());
+                            database.getCurrentBoardString());
         try {
             Thread.sleep(Constants.MS_BEFORE_DISPLAYING_NEXT_MOVE);
         } catch (InterruptedException e) {
@@ -41,7 +53,9 @@ public class ExpertSystem {
         }
     }
 
-
+    /**
+     * Generates and prints the summary message of our search.
+     */
     private void printSummary() {
         StringBuilder summaryStrBuilder = new StringBuilder();
 
@@ -60,11 +74,11 @@ public class ExpertSystem {
         System.out.println(summaryStrBuilder.toString());
     }
 
-    private boolean continueSearching() {
-        return !haveGivenUp()
-            && !database.goalIsReached();
-    }
-
+    /**
+     * Determines when we should stop our search.
+     * 
+     * @return True if we should stop searching. False otherwise.
+     */
     private boolean haveGivenUp() {
         if (database.getMoveCount() >= Constants.MAX_NUM_MOVES || database.rulesNoLongerFiring()) {
             return true;
@@ -76,8 +90,10 @@ public class ExpertSystem {
     public static void main(String[] args) {
         int cols = 20;
         int rows = 10;
-        int numObstacles = 10;
-        /* */
+        int numCells = cols*rows;
+        double pctObjects = 0.20;
+        int numObstacles = (int) ((int)numCells*pctObjects);
+
         if (args.length > 1) {
             System.out.println("Got here!");
         }

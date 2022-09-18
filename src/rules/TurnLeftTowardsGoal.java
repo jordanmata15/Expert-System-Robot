@@ -10,6 +10,9 @@ import src.Grid.GridIndex;
 
 public class TurnLeftTowardsGoal extends Rule {
 
+    /**
+     * Simple constructor
+     */
     public TurnLeftTowardsGoal() {
         antecedentString = "<GOAL LOCATION IS KNOWN> and " + 
                             "<GOAL IS OUT OF PERIPHERALS> and " + 
@@ -17,6 +20,9 @@ public class TurnLeftTowardsGoal extends Rule {
         actionString = "<TURN LEFT>";
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean condition(Environment env, Agent agent) {
         GridIndex goalIndex = env.getGoalIndex();
@@ -28,12 +34,22 @@ public class TurnLeftTowardsGoal extends Rule {
         return false;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void action(Environment env, Agent agent) {
         agent.turnLeft();
     }
 
-    protected boolean leftTurnOrientsTowardsGoal(Agent agent, GridIndex goalLocation) {
+    /**
+     * Validates if turning left makes the agent closer to facing the goal. 
+     * 
+     * @param agent The agent in the environment. Containing currDirection and currIndex.
+     * @param goalLocation The location of the goal in the environment.
+     * @return True if turning left makes the agent closer to facing the goal. False otherwise.
+     */
+    private boolean leftTurnOrientsTowardsGoal(Agent agent, GridIndex goalLocation) {
         return turnOrientsTowardsGoal(agent, goalLocation, Direction.DEGREES_LEFT_TURN);
     }
 }

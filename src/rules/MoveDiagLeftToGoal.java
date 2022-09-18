@@ -9,12 +9,18 @@ import src.Grid.GridIndex;
 
 public class MoveDiagLeftToGoal extends Rule {
 
+    /**
+     * Simple constructor
+     */
     public MoveDiagLeftToGoal() {
         antecedentString = "<GOAL LOCATION IS KNOWN> and " + 
                             "<GOAL IS VISIBLE DIAGONALLY LEFT>";
         actionString = "<MOVE DIAGONALLY LEFT>";
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean condition(Environment env, Agent agent) {
         GridIndex goalIndex = env.getGoalIndex();
@@ -27,6 +33,9 @@ public class MoveDiagLeftToGoal extends Rule {
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void action(Environment env, Agent agent) {
         agent.moveForwardDiagonallyLeft(env);

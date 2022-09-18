@@ -17,13 +17,12 @@ public class Environment {
     public Environment(int numCols, int numRows, int numObstacles) {
         environmentGrid = new Grid<>(numCols, numRows, Constants.EMPTY);
         assignGoalLocation();
+        assignAgentLocation();
         addObstacles(numObstacles);
     }
 
     public Environment(Environment other) {
-        if (Objects.nonNull(other.agentStartIndex)) {
-            agentStartIndex = new GridIndex(other.agentStartIndex.x, other.agentStartIndex.y);
-        }
+        agentStartIndex = new GridIndex(other.agentStartIndex.x, other.agentStartIndex.y);
         goalIndex = new GridIndex(other.goalIndex.x, other.goalIndex.y);
         environmentGrid = new Grid<>(other.environmentGrid.getNumCols(), 
                                      other.environmentGrid.getNumRows());
@@ -39,7 +38,10 @@ public class Environment {
         goalIndex = null;
         for (int x=0; x<environmentGrid.getNumCols(); ++x) {
             for (int y=0; y<environmentGrid.getNumRows(); ++y) {
-                if (environmentGrid.getXY(x, y) != Constants.AGENT) {
+                if (environmentGrid.getXY(x, y) == Constants.AGENT) {
+                    agentStartIndex = new GridIndex(x, y);
+                    environmentGrid.setXY(x, y, Constants.AGENT);
+                } else {
                     environmentGrid.setXY(x, y, Constants.UNKNOWN);
                 }
             }
@@ -47,10 +49,9 @@ public class Environment {
         return this;
     }
 
-    public Environment withAgentStartLocation() {
+    public void assignAgentLocation() {
         agentStartIndex = getRandomEmptyCell();
         environmentGrid.setXY(agentStartIndex.x, agentStartIndex.y, Constants.AGENT);
-        return this;
     }
 
     public void setAgentStartIndex(GridIndex startIdx) throws IllegalAccessError {
@@ -124,8 +125,13 @@ public class Environment {
 
     @Override
     public String toString() {
-        environmentGrid.setXY(agentStartIndex.x, agentStartIndex.y, Constants.AGENT);
+        //environmentGrid.setXY(agentStartIndex.x, agentStartIndex.y, Constants.AGENT);
         return environmentGrid.toString();
     }
     
+
+    public String toStringWithoutAgentStart() {
+        environmentGrid.setXY(agentStartIndex.x, agentStartIndex.y, Constants.EMPTY);
+        return this.toString();
+    }
 }

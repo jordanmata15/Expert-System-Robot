@@ -9,12 +9,18 @@ import src.Grid.GridIndex;
 
 public class MoveForwardToGoal extends Rule {
 
+    /**
+     * Simple constructor
+     */
     public MoveForwardToGoal() {
         antecedentString = "<GOAL LOCATION IS KNOWN> and " + 
                             "<GOAL IS VISIBLE DIRECTLY AHEAD>";
         actionString = "<MOVE FORWARD>";
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean condition(Environment env, Agent agent) {
         GridIndex goalIndex = env.getGoalIndex();
@@ -27,6 +33,9 @@ public class MoveForwardToGoal extends Rule {
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void action(Environment env, Agent agent) {
         agent.moveForward(env);
