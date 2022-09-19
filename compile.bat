@@ -1,8 +1,7 @@
 :: USAGE
-::      Set PACKAGE_DIR to the root of the package on your system
-::      Run this script
+::      Run this script to compile
 
-set PACKAGE_DIR=C:\\Users\\Jordan\\Git\\Expert-System-Robot
+set PACKAGE_DIR=%~dp0
 
 
 set BUILD_DIR=%PACKAGE_DIR%\\build
