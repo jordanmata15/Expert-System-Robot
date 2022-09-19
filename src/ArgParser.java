@@ -17,7 +17,7 @@ public class ArgParser {
                                         "\t-p\t\t Display grids with pretty printing (better spacing and more intuitive object labels)\n" +
                                         "\t-r\t\t Display all rules fired after finished\n" +
                                         "\t-g <percent>\t Percent of the board that should be obstacles [0-100] (eg. pass in 10 for 10%)\n" +
-                                        "\t-f <filename>\t Full path to the input file we wish to initialize our board to\n" +
+                                        "\t-i <filename>\t Full path to the input file we wish to initialize our board to\n" +
                                         "\t-o <filename>\t Full path to the output file we wish to write the output to\n";
 
     /**
@@ -47,7 +47,7 @@ public class ArgParser {
                 prettyPrintingFlag = true;
             } else if (args[i].equals("-r")) {
                 displayRulesFiredFlag = true;
-            } else if (args[i].equals("-f")) {
+            } else if (args[i].equals("-i")) {
                 ++i;
                 inputFilePath = args[i];
             } else if (args[i].equals("-o")) {
