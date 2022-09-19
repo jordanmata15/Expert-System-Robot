@@ -5,12 +5,12 @@ import src.Direction;
 import src.Environment;
 import src.Grid.GridIndex;
 
-public class IsBlockedAheadRule extends Rule{
+public class IsBlockedAhead extends Rule{
 
     /**
      * Simple constructor
      */
-    public IsBlockedAheadRule() {
+    public IsBlockedAhead() {
         antecedentString = "<CANNOT MOVE DIAGONALLY LEFT> and " + 
                             "<CANNOT MOVE DIRECTLY FORWARD> and " + 
                             "<CANNOT MOVE DIAGONALLY RIGHT>";

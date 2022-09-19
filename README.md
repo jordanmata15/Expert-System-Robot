@@ -1,5 +1,10 @@
 # Expert-System-Robot
- 
+
+This program will use a rule based expert system to navigate a grid and find the goal.
+If run with no paramters, the program will display the start and end result to console once finished and output the resulting grid to ./output/output.txt.
+
+You can specify input and output file yourself if you wish using the `-i <filename>` and `-o <filename>` flags. For a full list of flags you can use, run the program with the `--help` flag.
+
 ## Running
 ### IDE (no need to compile)
 - Open the package in an IDE (VSCode, Eclipse, etc)
@@ -21,6 +26,8 @@
   You can pass in any flags at the end of the line.</br>
   For example, to run with an input file (-f flag) and pretty printing (-p flag):</br>
   Eg. `java src.ExpertSystem -p -f ..\\input\\input_10.txt`
+  To run with an input file (-f flag) and an output file:</br>
+  Eg. `java src.ExpertSystem -o ..\output\output.txt -f ..\\input\\input_10.txt`
 - Alternatively, you can just run the .\run.bat file and pass in parameters directly there
  
  
@@ -41,5 +48,6 @@ ExpertSystem:</br>
 >>        -d               Display grid after each move</br>
 >>        -p               Display grids with pretty printing (better spacing and more intuitive object labels)</br>
 >>        -r               Display all rules fired after finished</br>
->>        -f <filename>    Full path to the input file we wish to initialize our board to</br>
->>        -o <percent>     Percent of the board that should be obstacles [0-100] (eg. pass in 10 for 10%)
+>>        -g <percent>     Percent of the board that should be obstacles [0-100] (eg. pass in 10 for 10%)
+>>        -i <filename>    Full path to the input file we wish to initialize our board to</br>
+>>        -o <filename>    Full path to the output file we wish to write the output to

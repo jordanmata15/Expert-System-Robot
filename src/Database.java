@@ -7,7 +7,7 @@ import java.util.Objects;
 import java.util.Stack;
 
 import src.Grid.GridIndex;
-import src.rules.IsBlockedAheadRule;
+import src.rules.IsBlockedAhead;
 import src.rules.MoveDiagLeftIfAble;
 import src.rules.MoveDiagRightIfAble;
 import src.rules.MoveDiagLeftToGoal;
@@ -192,7 +192,7 @@ public class Database {
      * Populates the list of rules we wish to run.
      */
     private void initializeRules() {
-        ruleList.add(new IsBlockedAheadRule());
+        ruleList.add(new IsBlockedAhead());
 
         // ensure that at least a few rules can fire when the environment is unexplored
         ruleList.add(new MoveDiagLeftIfAble());
