@@ -163,7 +163,7 @@ public class Database {
                 indexToExplore = indexToExplore.add(directionToExplore.forwardOffset());
                 continue;
             }
-            if (objectFound == Constants.GOAL) {
+            if (objectFound == Constants.GOAL && Objects.nonNull(unexploredEnvironment.getGoalIndex())) {
                 unexploredEnvironment.setGoalIndex(new GridIndex(indexToExplore.x, indexToExplore.y));
             }
             // this index contains some other object/obstacle
