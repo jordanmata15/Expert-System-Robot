@@ -24,17 +24,15 @@ public class ExpertSystem {
      * Runs the search on the environment and prints stats at the end.
      */
     public void search() {
-
+        display();
         while (!haveGivenUp() && !database.goalIsReached()) {
             Rule ruleToApply = database.getNextRule();
             if (database.canFireRule(ruleToApply)) {
                 database.fireRule(ruleToApply);
+                display();
             }
-            display();
         }
-
         printSummary();
-        
         // Enable this line to see a list of all rules fired 
         // System.out.println(database.allRulesFiredSoFarString());
     }

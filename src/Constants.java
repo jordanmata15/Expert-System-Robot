@@ -9,7 +9,7 @@ public class Constants {
     public static char OUT_OF_BOUNDS = 'I';
 
     // 30 MS is minimum value that still makes the display easily visible
-    public static int MS_BEFORE_DISPLAYING_NEXT_MOVE = 30;
+    public static int MS_BEFORE_DISPLAYING_NEXT_MOVE = 75;
     public static int MAX_NUM_MOVES = 2000;
 
     private Constants(){}; // hide constructor
