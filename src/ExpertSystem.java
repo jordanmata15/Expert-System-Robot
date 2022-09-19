@@ -24,7 +24,7 @@ public class ExpertSystem {
             database = new Database(env);
             displayMoveFlag = argParser.getDisplayOutputFlag();
         } else {
-            // initialize grid randomly
+            // initialize grid randomly with predefined size
             int cols = argParser.getNumCols();
             int rows = argParser.getNumRows();
             int numCells = cols*rows;

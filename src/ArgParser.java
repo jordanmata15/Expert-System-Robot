@@ -26,8 +26,8 @@ public class ArgParser {
         displayOutputFlag = false;
         displayRulesFiredFlag = false;
         prettyPrintingFlag = false;
-        rows = 45;
-        cols = 35;
+        rows = 35;
+        cols = 45;
         percentObstacles = 0.10;
     }
     
