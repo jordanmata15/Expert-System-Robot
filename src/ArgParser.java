@@ -13,7 +13,7 @@ public class ArgParser {
 
     private static String USAGE = "ExpertSystem:\n" +
                                         "\t-d\t\t Display grid after each move\n" +
-                                        "\t-p\t\t Display grid with pretty printing (better spacing and more intuitive object labels)\n" +
+                                        "\t-p\t\t Display grids with pretty printing (better spacing and more intuitive object labels)\n" +
                                         "\t-r\t\t Display all rules fired after finished\n" +
                                         "\t-f <filename>\t Full path to the input file we wish to initialize our board to\n" +
                                         "\t-o <percent>\t Percent of the board that should be obstacles [0-100] (eg. pass in 10 for 10%)\n";
@@ -41,7 +41,6 @@ public class ArgParser {
             if (args[i].equals("-d")) {
                 displayOutputFlag = true;
             } else if (args[i].equals("-p")) {
-                displayOutputFlag = true;
                 prettyPrintingFlag = true;
             } else if (args[i].equals("-r")) {
                 displayRulesFiredFlag = true;
