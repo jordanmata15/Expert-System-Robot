@@ -1,4 +1,4 @@
-MAKEFILE_DIR = $(abspath $(lastword $(MAKEFILE_LIST)))
+MAKEFILE_DIR = $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
 JFLAGS = -g
 JC = javac
