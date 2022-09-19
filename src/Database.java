@@ -20,8 +20,8 @@ import src.rules.TurnRightTowardsGoal;
 
 
 public class Database {
-    private Environment actualEnvironment;
-    private Environment unexploredEnvironment;
+    private Environment actualEnvironment; // B(x,y)
+    private Environment unexploredEnvironment; // A(x,y)
     private Agent agent;
 
     private int moveCounter;
