@@ -35,4 +35,11 @@
 - type `make`
 
 
-# Notes
+# Usage
+ExpertSystem:</br>
+>    Valid Flags:
+>        -d               Display grid after each move</br>
+>        -p               Display grids with pretty printing (better spacing and more intuitive object labels)</br>
+>        -r               Display all rules fired after finished</br>
+>        -f <filename>    Full path to the input file we wish to initialize our board to</br>
+>        -o <percent>     Percent of the board that should be obstacles [0-100] (eg. pass in 10 for 10%)
