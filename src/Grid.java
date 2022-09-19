@@ -80,6 +80,22 @@ public class Grid<T> {
         for (int y=0; y<rows; ++y) {
             for (int x=0; x<cols; ++x) {
                 toStringBuilder.append(getAtIndex(new GridIndex(x, y)));
+            }
+            toStringBuilder.append('\n');
+        }
+        return toStringBuilder.toString();
+    }
+
+    /**
+     * toString with better spacing horizontally
+     * 
+     * @return the 2d environment as a string
+     */
+    public String prettyToString(){
+        StringBuilder toStringBuilder = new StringBuilder();
+        for (int y=0; y<rows; ++y) {
+            for (int x=0; x<cols; ++x) {
+                toStringBuilder.append(getAtIndex(new GridIndex(x, y)));
                 toStringBuilder.append(print_spacer);
             }
             toStringBuilder.append('\n');

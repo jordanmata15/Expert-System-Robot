@@ -1,6 +1,11 @@
 package src;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.Scanner;
 
 import src.Grid.GridIndex;
 
@@ -32,6 +37,32 @@ public class Environment {
         assignGoalLocation();
         assignAgentLocation();
         addObstacles(numObstacles);
+    }
+
+    /**
+     * Simple constructor to create the grid from an input file
+     * 
+     * @param inputFilePath
+     */
+    public Environment(String inputFilePath) {
+        List<char[]> arrayRead = getArrayFromFile(inputFilePath);
+        int numRows = arrayRead.size();
+        int numCols = arrayRead.get(0).length;
+        environmentGrid = new Grid<>(numCols, numRows, Constants.EMPTY);
+        
+        // copy over the grid we read in
+        for (int y=0; y<numRows; ++y) {
+            for (int x=0; x<numCols; ++x) {
+                GridIndex index = new GridIndex(x, y);
+                Character item = arrayRead.get(y)[x];
+                environmentGrid.setAtIndex(index, item);
+                if (item == Constants.AGENT) {
+                    agentStartIndex = index;
+                } else if (item == Constants.GOAL) {
+                    goalIndex = index;
+                }
+            }
+        }
     }
 
     /**
@@ -224,8 +255,46 @@ public class Environment {
         return (int) ((Math.random() * (max - min)) + min);
     }
 
+    /**
+     * Parses a file with the input grid and converts it to a list of
+     * character arrays.
+     * 
+     * @param inputFilePath The path to the file to read
+     * @return The tokenized 2d grid of characters
+     */
+    private List<char[]> getArrayFromFile(String inputFilePath) {
+        List<char[]> grid = new ArrayList<>();
+        File inputFile = new File(inputFilePath);
+        try {
+            try (Scanner reader = new Scanner(inputFile)) {
+                while (reader.hasNextLine()) {
+                    String line = reader.nextLine();
+                    grid.add(line.toCharArray());
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+        return grid;
+    }
+
     @Override
     public String toString() {
         return environmentGrid.toString();
+    }
+
+    /**
+     * toString with better spacing and more intuitive labels
+     * 
+     * @return the 2d environment as a string.
+     */
+    public String prettyToString() {
+        return environmentGrid.prettyToString()
+                                .replace(Constants.EMPTY, Constants.PRETTY_EMPTY)
+                                .replace(Constants.AGENT, Constants.PRETTY_AGENT)
+                                .replace(Constants.GOAL, Constants.PRETTY_GOAL)
+                                .replace(Constants.UNKNOWN, Constants.PRETTY_UNKNOWN)
+                                .replace(Constants.OBSTACLE, Constants.PRETTY_OBSTACLE);
     }
 }

@@ -236,11 +236,33 @@ public class Database {
         return unexploredEnvironment.toString();
     }
 
+    /**
+     * Returns the board we are currently exploring as a string
+     * with better formatting.
+     * 
+     * @return the current board string.
+     */
+    public String getCurrentBoardPrettyString() {
+        return unexploredEnvironment.prettyToString();
+    }
+
+    @Override
     public String toString() {
-        return "Starting environment:\n" + 
+        return "\n\nSTARTING ENVIRONMENT:\n\n" + 
                 actualEnvironment.toString() + "\n" + 
-                "Explored environment:\n" + 
-                unexploredEnvironment.toString() + "\n" + 
-                agent.toString();
+                "EXPLORED ENVIRONMENT:\n\n" + 
+                unexploredEnvironment.toString();
+    }
+
+    /**
+     * toString with better spacing and more intuitive labels for the grids
+     * 
+     * @return the 2d environment as a string.
+     */
+    public String prettyToString() {
+        return "\n\nSTARTING ENVIRONMENT:\n\n" + 
+                actualEnvironment.prettyToString() + "\n" + 
+                "EXPLORED ENVIRONMENT:\n\n" + 
+                unexploredEnvironment.prettyToString();
     }
 }

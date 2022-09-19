@@ -1,40 +1,65 @@
 package src;
 
 import java.lang.Thread;
+import java.util.Objects;
 
 import src.rules.Rule;
 
 public class ExpertSystem {
     
     private Database database;
-    
+    private boolean displayMoveFlag;
+    private boolean displayRulesFlag;
+    private boolean prettyPrintingFlag;
+
     /**
-     * Simple constructor
+     * Simple constructor that uses argparser to pass in the arguments
      * 
-     * @param m The number of columns in our environment grid
-     * @param n The number of rows in our environment grid
-     * @param numObstacles
+     * @param argParser container for all of our arguments
      */
-    public ExpertSystem(int m, int n, int numObstacles) {
-        Environment env = new Environment(m, n, numObstacles);
-        database = new Database(env);
+    public ExpertSystem(ArgParser argParser) {
+        if (Objects.nonNull(argParser.getInputFilePath())) {
+            // initialize grid from file
+            Environment env = new Environment(argParser.getInputFilePath());
+            database = new Database(env);
+            displayMoveFlag = argParser.getDisplayOutputFlag();
+        } else {
+            // initialize grid randomly
+            int cols = argParser.getNumCols();
+            int rows = argParser.getNumRows();
+            int numCells = cols*rows;
+            int numObstacles = (int) (numCells * argParser.getPercentObstacles());
+            Environment env = new Environment(cols, rows, numObstacles);
+            database = new Database(env);
+        }
+
+        displayMoveFlag = argParser.getDisplayOutputFlag();
+        prettyPrintingFlag = argParser.getPrettyPrintingFlag();
+        displayRulesFlag = argParser.getDisplayRulesFiredFlag();
     }
 
     /**
      * Runs the search on the environment and prints stats at the end.
      */
     public void search() {
-        display();
+        if (displayMoveFlag){
+            display();
+        }
         while (!haveGivenUp() && !database.goalIsReached()) {
             Rule ruleToApply = database.getNextRule();
             if (database.canFireRule(ruleToApply)) {
                 database.fireRule(ruleToApply);
-                display();
+                if (displayMoveFlag){
+                    display();
+                }
             }
         }
+        
         printSummary();
-        // Enable this line to see a list of all rules fired 
-        // System.out.println(database.allRulesFiredSoFarString());
+
+        if (displayRulesFlag) {
+            System.out.println(database.allRulesFiredSoFarString());
+        }
     }
 
     /**
@@ -42,8 +67,14 @@ public class ExpertSystem {
      * Sleeps after displaying to allow the move to be seen.
      */
     private void display() {
+        String databaseStr;
+        if (prettyPrintingFlag) {
+            databaseStr = database.getCurrentBoardPrettyString();
+        } else {
+            databaseStr = database.getCurrentBoardString();
+        }
         System.out.println("Move #" + database.getMoveCount() + "\n" +
-                            database.getCurrentBoardString());
+                                    databaseStr);
         try {
             Thread.sleep(Constants.MS_BEFORE_DISPLAYING_NEXT_MOVE);
         } catch (InterruptedException e) {
@@ -57,6 +88,12 @@ public class ExpertSystem {
     private void printSummary() {
         StringBuilder summaryStrBuilder = new StringBuilder();
 
+        if (prettyPrintingFlag) {
+            summaryStrBuilder.append(database.prettyToString());
+        } else {
+            summaryStrBuilder.append(database.toString());
+        }
+
         summaryStrBuilder.append("\nSUMMARY:");
         if (database.goalIsReached()) {
             summaryStrBuilder.append("\nGoal status:\t\tFound!\n");
@@ -68,7 +105,7 @@ public class ExpertSystem {
         summaryStrBuilder.append("# moves used:\t\t" + 
                                     database.getMoveCount() + "/" + 
                                     Constants.MAX_NUM_MOVES + "\n\n");
-        summaryStrBuilder.append(database.toString());
+
         System.out.println(summaryStrBuilder.toString());
     }
 
@@ -86,17 +123,12 @@ public class ExpertSystem {
     }
 
     public static void main(String[] args) {
-        int cols = 20;
-        int rows = 10;
-        int numCells = cols*rows;
-        double pctObjects = 0.20;
-        int numObstacles = (int) ((int)numCells*pctObjects);
+        ArgParser argParser = new ArgParser();
+        ExpertSystem es;
 
-        if (args.length > 1) {
-            System.out.println("Got here!");
-        }
+        argParser.parseArgs(args);
+        es = new ExpertSystem(argParser);
 
-        ExpertSystem es = new ExpertSystem(cols, rows, numObstacles);
-        es.search();
+        es.search();        
     }
 }
