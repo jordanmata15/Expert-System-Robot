@@ -37,7 +37,7 @@
 
 # Usage
 ExpertSystem:</br>
->    Valid Flags:
+>    Valid Flags:</br>
 >        -d               Display grid after each move</br>
 >        -p               Display grids with pretty printing (better spacing and more intuitive object labels)</br>
 >        -r               Display all rules fired after finished</br>
