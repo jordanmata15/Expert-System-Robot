@@ -1,5 +1,7 @@
 package src;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.Thread;
 import java.util.Objects;
 
@@ -11,6 +13,7 @@ public class ExpertSystem {
     private boolean displayMoveFlag;
     private boolean displayRulesFlag;
     private boolean prettyPrintingFlag;
+    private String outputFilePath;
 
     /**
      * Simple constructor that uses argparser to pass in the arguments
@@ -24,7 +27,7 @@ public class ExpertSystem {
             database = new Database(env);
             displayMoveFlag = argParser.getDisplayOutputFlag();
         } else {
-            // initialize grid randomly
+            // initialize grid randomly with predefined size
             int cols = argParser.getNumCols();
             int rows = argParser.getNumRows();
             int numCells = cols*rows;
@@ -32,7 +35,8 @@ public class ExpertSystem {
             Environment env = new Environment(cols, rows, numObstacles);
             database = new Database(env);
         }
-
+        
+        outputFilePath = argParser.getOutputFilePath();
         displayMoveFlag = argParser.getDisplayOutputFlag();
         prettyPrintingFlag = argParser.getPrettyPrintingFlag();
         displayRulesFlag = argParser.getDisplayRulesFiredFlag();
@@ -60,6 +64,8 @@ public class ExpertSystem {
         if (displayRulesFlag) {
             System.out.println(database.allRulesFiredSoFarString());
         }
+
+        writeOutputToFile();
     }
 
     /**
@@ -99,7 +105,6 @@ public class ExpertSystem {
             summaryStrBuilder.append("\nGoal status:\t\tFound!\n");
         } else {
             summaryStrBuilder.append("\nGoal status:\t\tNot found!\n");
-            summaryStrBuilder.append("Did agent gave up?\t" + haveGivenUp() + "\n");
             summaryStrBuilder.append("Rules stopped firing?\t" + database.rulesNoLongerFiring() + "\n");
         }
         summaryStrBuilder.append("# moves used:\t\t" + 
@@ -107,6 +112,20 @@ public class ExpertSystem {
                                     Constants.MAX_NUM_MOVES + "\n\n");
 
         System.out.println(summaryStrBuilder.toString());
+    }
+
+    /**
+     * Writes the final grid after we are done searching to a specific file.
+     */
+    private void writeOutputToFile() {
+        try {
+            FileWriter myWriter = new FileWriter(outputFilePath);
+            myWriter.write(database.getCurrentBoardString());
+            myWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
     }
 
     /**
