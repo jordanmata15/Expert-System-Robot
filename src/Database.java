@@ -237,8 +237,8 @@ public class Database {
     }
 
     public String toString() {
-        return "Actual environment:\n" + 
-                actualEnvironment.toStringWithoutAgentStart() + "\n" + 
+        return "Starting environment:\n" + 
+                actualEnvironment.toString() + "\n" + 
                 "Explored environment:\n" + 
                 unexploredEnvironment.toString() + "\n" + 
                 agent.toString();

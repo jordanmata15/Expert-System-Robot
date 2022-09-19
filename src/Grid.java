@@ -58,22 +58,20 @@ public class Grid<T> {
     /**
      * Sets the value at an index
      * 
-     * @param x The column to set
-     * @param y The row to set
+     * @param index The index with the row/column value
      * @param item The value to put at this index
      */
-    public void setXY(int x, int y, T item) {
-        grid.set(y*cols+x, item);
+    public void setAtIndex(GridIndex index, T item) {
+        grid.set(index.y*cols+index.x, item);
     }
 
     /**
      * Sets the value at an index
-     * @param x The column to get
-     * @param y The row to get
+     * @param index The index with the row/column value 
      * @return
      */
-    public T getXY(int x, int y) {
-        return grid.get(y*cols+x);
+    public T getAtIndex(GridIndex index) {
+        return grid.get(index.y*cols+index.x);
     }
 
     @Override
@@ -81,7 +79,7 @@ public class Grid<T> {
         StringBuilder toStringBuilder = new StringBuilder();
         for (int y=0; y<rows; ++y) {
             for (int x=0; x<cols; ++x) {
-                toStringBuilder.append(getXY(x,y));
+                toStringBuilder.append(getAtIndex(new GridIndex(x, y)));
                 toStringBuilder.append(print_spacer);
             }
             toStringBuilder.append('\n');
