@@ -3,7 +3,7 @@
 This program will use a rule based expert system to navigate a grid and find the goal.
 If run with no paramters, the program will display the start and end result to console once finished and output the resulting grid to ./output/output.txt.
 
-You can specify input and output file yourself if you wish using the -i <> and -o flags foll
+You can specify input and output file yourself if you wish using the `-i <filename>` and `-o <filename>` flags. For a full list of flags you can use, run the program with the `--help` flag.
 
 ## Running
 ### IDE (no need to compile)
